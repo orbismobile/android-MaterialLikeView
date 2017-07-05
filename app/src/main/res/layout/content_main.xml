@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.orbis.samplemateriallikeview.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <com.orbis.materiallikeview.MaterialLikeView
+        android:id="@+id/mlvCarlitos"
+        android:layout_width="190dp"
+        android:layout_height="201dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="97dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.459"
+        app:mlvCircleViewColor="@color/md_amber_600"
+        app:mlvFavoriteIcon="@drawable/ic_star_amber_600_48dp"/>
+</android.support.constraint.ConstraintLayout>

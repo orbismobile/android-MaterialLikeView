@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MaterialLikeView">
+        <attr name="mlvNotFavoriteIcon" format="reference" />
+        <attr name="mlvFavoriteIcon" format="reference" />
+        <attr name="mlvCircleViewColor" format="color"/>
+
+    </declare-styleable>
+</resources>
