@@ -23,22 +23,32 @@ import android.widget.ImageView;
 
 /**
  * Created by Carlos Leonardo Camilo Vargas Huamán on 7/4/17.
- *
  */
 
-public class MaterialLikeView extends FrameLayout {
+public class MaterialLikeView extends FrameLayout implements View.OnClickListener {
+
+
+    /**
+     * Default state value for the view
+     */
+    private static final boolean DEFAULT_FAVORITE_STATE_VALUE = false;
 
     private ImageView ivStar;
     private CircleView circleView;
     private DotsView dotsView;
 
-
     private int circleViewColor;
     private int favoriteIcon;
     private int notFavoriteIcon;
 
+    private int dotsViewColor1;
+    private int dotsViewColor2;
+    private int dotsViewColor3;
+    private int dotsViewColor4;
+
     private int itemPosition = -1;
 
+    private boolean favoriteState;
 
     private AnimatorSet likeAnimatorSet;
     private AnimatorSet unlikeAnimatorSet;
@@ -47,15 +57,15 @@ public class MaterialLikeView extends FrameLayout {
     private static final AccelerateDecelerateInterpolator ACCELERATE_DECELERATE_INTERPOLATOR = new AccelerateDecelerateInterpolator();
     private static final OvershootInterpolator OVERSHOOT_INTERPOLATOR = new OvershootInterpolator(4);
 
-    private OnLikeAnimationListener onLikeAnimationListener;
-    private OnLikeAnimationItemClickListener onLikeAnimationItemClickListener;
+    private OnMaterialLikeAnimationListener onMaterialLikeAnimationListener;
+    private OnMaterialLikeItemClickListener onMaterialLikeItemClickListener;
 
-    public void setOnLikeAnimationClickListener(OnLikeAnimationListener onLikeAnimationListener) {
-        this.onLikeAnimationListener = onLikeAnimationListener;
+    public void setOnMaterialLikeClickListener(OnMaterialLikeAnimationListener onMaterialLikeAnimationListener) {
+        this.onMaterialLikeAnimationListener = onMaterialLikeAnimationListener;
     }
 
-    public void setOnLikeAnimationItemClickListener(OnLikeAnimationItemClickListener onLikeAnimationItemClickListener) {
-        this.onLikeAnimationItemClickListener = onLikeAnimationItemClickListener;
+    public void setOnMaterialLikeItemClickListener(OnMaterialLikeItemClickListener onMaterialLikeItemClickListener) {
+        this.onMaterialLikeItemClickListener = onMaterialLikeItemClickListener;
     }
 
     public MaterialLikeView(@NonNull Context context) {
@@ -93,20 +103,40 @@ public class MaterialLikeView extends FrameLayout {
         notFavoriteIcon = a.getResourceId(
                 R.styleable.MaterialLikeView_mlvNotFavoriteIcon, R.drawable.ic_favorite_border_grey_700_48dp);
 
+        dotsViewColor1 = a.getColor(
+                R.styleable.MaterialLikeView_mlvDotsViewColor1, ContextCompat.getColor(this.getContext(), R.color.md_red_500));
+
+        dotsViewColor2 = a.getColor(
+                R.styleable.MaterialLikeView_mlvDotsViewColor1, ContextCompat.getColor(this.getContext(), R.color.md_red_600));
+        dotsViewColor3 = a.getColor(
+                R.styleable.MaterialLikeView_mlvDotsViewColor1, ContextCompat.getColor(this.getContext(), R.color.md_red_700));
+        dotsViewColor4 = a.getColor(
+                R.styleable.MaterialLikeView_mlvDotsViewColor1, ContextCompat.getColor(this.getContext(), R.color.md_red_900));
+        favoriteState = a.getBoolean(
+                R.styleable.MaterialLikeView_mlvFavoriteState, DEFAULT_FAVORITE_STATE_VALUE);
+
         a.recycle();
     }
 
     private void initView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_materiallikeview, this, true);
-        circleView = view.findViewById(R.id.vCircle);
-        ivStar = view.findViewById(R.id.ivStar);
-        dotsView = view.findViewById(R.id.vDotsView);
+        FrameLayout frameLayout = (FrameLayout) LayoutInflater.from(getContext()).inflate(R.layout.view_materiallikeview, this, true);
+        circleView = frameLayout.findViewById(R.id.vCircle);
+        ivStar = frameLayout.findViewById(R.id.ivStar);
+        dotsView = frameLayout.findViewById(R.id.vDotsView);
 
-        ivStar.setImageResource(favoriteIcon);
+        if(favoriteState){
+            ivStar.setImageResource(favoriteIcon);
+        }else{
+            ivStar.setImageResource(notFavoriteIcon);
+        }
+
         circleView.setColorCirclePaint(circleViewColor);
+        dotsView.setCurrentColors(dotsViewColor1, dotsViewColor2, dotsViewColor3, dotsViewColor4);
 
         likeAnimatorSet = new AnimatorSet();
         unlikeAnimatorSet = new AnimatorSet();
+
+        frameLayout.setOnClickListener(this);
     }
 
     @SuppressWarnings("SameParameterValue")
@@ -122,7 +152,6 @@ public class MaterialLikeView extends FrameLayout {
             circleView.setInnerCircleRadiusProgress(0);
             circleView.setOuterCircleRadiusProgress(0);
             dotsView.setCurrentProgress(0);
-
 
             ObjectAnimator outerCircleAnimator = ObjectAnimator.ofFloat(circleView, CircleView.OUTER_CIRCLE_RADIUS_PROGRESS, 0.1f, 1f);
             outerCircleAnimator.setDuration(200);
@@ -157,11 +186,22 @@ public class MaterialLikeView extends FrameLayout {
             );
 
             likeAnimatorSet.start();
+
+            likeAnimatorSet.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    setFavoriteState(true);
+                    if(onMaterialLikeAnimationListener !=null) onMaterialLikeAnimationListener.onMaterialLikeAnimationFinished();
+                    if(onMaterialLikeItemClickListener !=null) onMaterialLikeItemClickListener.onMaterialLikeItemFinished(itemPosition);
+
+                }
+            });
+
         }
     }
 
     public void startNotLikeAnimation() {
-        if(!isUnLikeAnimationRunning()){
+        if (!isUnLikeAnimationRunning()) {
             ivStar.setImageResource(notFavoriteIcon);
 
             unlikeAnimatorSet.cancel();
@@ -183,8 +223,11 @@ public class MaterialLikeView extends FrameLayout {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    if(onLikeAnimationListener!=null) onLikeAnimationListener.onUnLikeAnimationFinished();
-                    if(onLikeAnimationItemClickListener!=null) onLikeAnimationItemClickListener.onUnLikeAnimationItemFinished(itemPosition);
+                    setFavoriteState(false);
+                    if (onMaterialLikeAnimationListener != null)
+                        onMaterialLikeAnimationListener.onMaterialNotLikeAnimationFinished();
+                    if (onMaterialLikeItemClickListener != null)
+                        onMaterialLikeItemClickListener.onMaterialUnLikeItemFinished(itemPosition);
                 }
             });
 
@@ -192,12 +235,28 @@ public class MaterialLikeView extends FrameLayout {
         }
     }
 
-    public boolean isLikeAnimationRunning(){
+    public boolean isLikeAnimationRunning() {
         return likeAnimatorSet.isRunning();
     }
 
-    public boolean isUnLikeAnimationRunning(){
+    public boolean isUnLikeAnimationRunning() {
         return unlikeAnimatorSet.isRunning();
     }
 
+    @Override
+    public void onClick(View view) {
+        if(isFavoriteState()){
+            startNotLikeAnimation();
+        }else{
+            startLikeAnimation();
+        }
+    }
+
+    public boolean isFavoriteState() {
+        return favoriteState;
+    }
+
+    public void setFavoriteState(boolean favoriteState) {
+        this.favoriteState = favoriteState;
+    }
 }

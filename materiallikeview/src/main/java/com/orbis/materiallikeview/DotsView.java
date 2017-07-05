@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Property;
 import android.view.View;
@@ -16,10 +17,10 @@ public class DotsView extends View {
     private static final int DOTS_COUNT = 7;
     private static final int OUTER_DOTS_POSITION_ANGLE = 360 / DOTS_COUNT;
 
-    private static final int COLOR_1 = 0xFF1976D2;//blue 700
-    private static final int COLOR_2 = 0xFF2979FF;//redAccent 400
-    private static final int COLOR_3 = 0xFF2196F3;//blue 5000xFF3F51B5
-    private static final int COLOR_4 = 0xFF42A5F5;//blue 400
+    private int color1;
+    private int color2;
+    private int color3;
+    private int color4;
 
     private final Paint[] circlePaints = new Paint[4];
 
@@ -80,8 +81,8 @@ public class DotsView extends View {
     }
 
     /**
-     *currentDotSize1  radius of circle start with 20 , 19 , 18,17 ... depends of maxDotSize
-     * **/
+     * currentDotSize1  radius of circle start with 20 , 19 , 18,17 ... depends of maxDotSize
+     **/
 
     private void drawOuterDotsFrame(Canvas canvas) {
         for (int i = 0; i < DOTS_COUNT; i++) {
@@ -101,13 +102,19 @@ public class DotsView extends View {
 
     public void setCurrentProgress(float currentProgress) {
         this.currentProgress = currentProgress;
-
         updateInnerDotsPosition();
         updateOuterDotsPosition();
         updateDotsPaints();
         updateDotsAlpha();
 
         postInvalidate();
+    }
+
+    public void setCurrentColors(int color1, int color2, int color3, int color4) {
+        this.color1 = color1;
+        this.color2 = color2;
+        this.color3 = color3;
+        this.color4 = color4;
     }
 
     private float getCurrentProgress() {
@@ -148,16 +155,16 @@ public class DotsView extends View {
     private void updateDotsPaints() {
         if (currentProgress < 0.5f) {
             float progress = (float) Utils.mapValueFromRangeToRange(currentProgress, 0f, 0.5f, 0, 1f);
-            circlePaints[0].setColor((Integer) argbEvaluator.evaluate(progress, COLOR_1, COLOR_2));
-            circlePaints[1].setColor((Integer) argbEvaluator.evaluate(progress, COLOR_2, COLOR_3));
-            circlePaints[2].setColor((Integer) argbEvaluator.evaluate(progress, COLOR_3, COLOR_4));
-            circlePaints[3].setColor((Integer) argbEvaluator.evaluate(progress, COLOR_4, COLOR_1));
+            circlePaints[0].setColor((Integer) argbEvaluator.evaluate(progress, color1, color2));
+            circlePaints[1].setColor((Integer) argbEvaluator.evaluate(progress, color2, color3));
+            circlePaints[2].setColor((Integer) argbEvaluator.evaluate(progress, color3, color4));
+            circlePaints[3].setColor((Integer) argbEvaluator.evaluate(progress, color4, color1));
         } else {
             float progress = (float) Utils.mapValueFromRangeToRange(currentProgress, 0.5f, 1f, 0, 1f);
-            circlePaints[0].setColor((Integer) argbEvaluator.evaluate(progress, COLOR_2, COLOR_3));
-            circlePaints[1].setColor((Integer) argbEvaluator.evaluate(progress, COLOR_3, COLOR_4));
-            circlePaints[2].setColor((Integer) argbEvaluator.evaluate(progress, COLOR_4, COLOR_1));
-            circlePaints[3].setColor((Integer) argbEvaluator.evaluate(progress, COLOR_1, COLOR_2));
+            circlePaints[0].setColor((Integer) argbEvaluator.evaluate(progress, color2, color3));
+            circlePaints[1].setColor((Integer) argbEvaluator.evaluate(progress, color3, color4));
+            circlePaints[2].setColor((Integer) argbEvaluator.evaluate(progress, color4, color1));
+            circlePaints[3].setColor((Integer) argbEvaluator.evaluate(progress, color1, color2));
         }
     }
 

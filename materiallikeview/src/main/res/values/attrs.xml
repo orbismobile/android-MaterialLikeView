@@ -4,6 +4,12 @@
         <attr name="mlvNotFavoriteIcon" format="reference" />
         <attr name="mlvFavoriteIcon" format="reference" />
         <attr name="mlvCircleViewColor" format="color"/>
+        <attr name="mlvFavoriteState" format="boolean"/>
+
+        <attr name="mlvDotsViewColor1" format="color"/>
+        <attr name="mlvDotsViewColor2" format="color"/>
+        <attr name="mlvDotsViewColor3" format="color"/>
+        <attr name="mlvDotsViewColor4" format="color"/>
 
     </declare-styleable>
 </resources>

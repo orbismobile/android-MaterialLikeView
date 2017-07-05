@@ -20,5 +20,7 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintVertical_bias="0.459"
         app:mlvCircleViewColor="@color/md_amber_600"
-        app:mlvFavoriteIcon="@drawable/ic_star_amber_600_48dp"/>
+        app:mlvFavoriteState="false"
+        app:mlvFavoriteIcon="@drawable/ic_star_amber_600_48dp"
+        app:mlvNotFavoriteIcon="@drawable/ic_star_border_grey_700_48dp"/>
 </android.support.constraint.ConstraintLayout>
