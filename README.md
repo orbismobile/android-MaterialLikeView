@@ -30,10 +30,10 @@ with an awesome custom animation.
 
 | Key | Description |
 | --- | --- |
-| ``app:mlvFavoriteIcon`` | abccccc   |
-| ``app:mlvFavoriteState`` |abc    |
-| ``app:mlvCircleViewColor`` | aa    |
-| ``app:mlvDotsViewColor1`` | bb    |
-| ``app:mlvDotsViewColor2`` | A asd   |
-| ``app:mlvDotsViewColor3`` | A asdf   |
-| ``app:mlvDotsViewColor4`` | A asdf   |
+| ``app:mlvFavoriteIcon`` | A custom drawable resource for the component. |
+| ``app:mlvFavoriteState`` | A boolean value that initialize your view with one state selected or unselected. |
+| ``app:mlvCircleViewColor`` | aa |
+| ``app:mlvDotsViewColor1`` | bb |
+| ``app:mlvDotsViewColor2`` | A asd |
+| ``app:mlvDotsViewColor3`` | A asdf |
+| ``app:mlvDotsViewColor4`` | A asdf |
