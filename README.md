@@ -28,27 +28,12 @@ with an awesome custom animation.
 
 ## Key Features
 
-| Key                        |                     Description                     |
-| -------------------------- | --------------------------------------------------- |
-| FavoriteIcon               | Arbitrary HTTP header, e.g. ``X-API-Token:123``.    |
-| ``app:mlvFavoriteIcon``    |                                                     |
-| FavoriteState              | Appends the given name/value pair as a query        |
-| ``app:mlvFavoriteState``   | string parameter to the URL.                        |
-|                            | The ``==`` separator is used.                       |
-| CircleViewColor            | Request data fields to be serialized as a JSON      |
-| ``app:mlvCircleViewColor`` | object (default), or to be form-encoded             |
-|                            | (``--form, -f``).                                   |---------------------------- | ---------------------------------------------------
-| DotViewColor1              | Useful when sending JSON and one or                 |
-| ``app:mlvDotsViewColor1``  | more fields need to be a ``Boolean``                |
-|                            | nested ``Object``, or an ``Array``,  e.g.,          |
-|                            | (note the quotes).                                  |
-| DotViewColor2              | Only available with ``--form, -f``.                 |
-| ``app:mlvDotsViewColor2``  | For example ``screenshot@~/Pictures/img.png``.      |
-|                            | The presence of a file field results                |              
-| DotViewColor3              | Only available with ``--form, -f``.                 |
-| ``app:mlvDotsViewColor3``  | For example ``screenshot@~/Pictures/img.png``.      |
-|                            | The presence of a file field results                |  
-| DotViewColor4              | Only available with ``--form, -f``.                 |
-| ``app:mlvDotsViewColor4``  | For example ``screenshot@~/Pictures/img.png``.      |
-|                            | The presence of a file field results                | 
-
+| Key | Description |
+| --- | --- |
+| ``app:mlvFavoriteIcon`` | abccccc   |
+| ``app:mlvFavoriteState`` |abc    |
+| ``app:mlvCircleViewColor`` | aa    |
+| ``app:mlvDotsViewColor1`` | bb    |
+| ``app:mlvDotsViewColor2`` | A asd   |
+| ``app:mlvDotsViewColor3`` | A asdf   |
+| ``app:mlvDotsViewColor4`` | A asdf   |
